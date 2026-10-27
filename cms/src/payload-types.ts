@@ -70,6 +70,8 @@ export interface Config {
     users: User;
     media: Media;
     pages: Page;
+    'housing-listings': HousingListing;
+    'roommate-profiles': RoommateProfile;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +82,8 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    'housing-listings': HousingListingsSelect<false> | HousingListingsSelect<true>;
+    'roommate-profiles': RoommateProfilesSelect<false> | RoommateProfilesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -90,10 +94,16 @@ export interface Config {
   };
   fallbackLocale: null;
   globals: {
-    common: Common;
+    'site-settings': SiteSetting;
+    header: Header;
+    navigation: Navigation;
+    footer: Footer;
   };
   globalsSelect: {
-    common: CommonSelect<false> | CommonSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    header: HeaderSelect<false> | HeaderSelect<true>;
+    navigation: NavigationSelect<false> | NavigationSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
   };
   locale: null;
   widgets: {
@@ -183,7 +193,8 @@ export interface Page {
             badge?: string | null;
             title: string;
             subtitle: string;
-            image: number | Media;
+            image?: (number | null) | Media;
+            imageUrl?: string | null;
             buttons?:
               | {
                   text: string;
@@ -211,8 +222,78 @@ export interface Page {
             blockName?: string | null;
             blockType: 'features';
           }
+        | {
+            anchor?: string | null;
+            title: string;
+            limit?: number | null;
+            showFilters?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'housingList';
+          }
+        | {
+            anchor?: string | null;
+            title: string;
+            limit?: number | null;
+            showCompatibility?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'roommateList';
+          }
+        | {
+            anchor?: string | null;
+            title: string;
+            body: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'textSection';
+          }
       )[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "housing-listings".
+ */
+export interface HousingListing {
+  id: number;
+  title: string;
+  city: string;
+  address?: string | null;
+  price: number;
+  rooms: number;
+  area?: number | null;
+  totalSpots: number;
+  freeSpots: number;
+  description: string;
+  photoUrl?: string | null;
+  petsAllowed?: boolean | null;
+  smokingAllowed?: boolean | null;
+  status: 'open' | 'closed';
+  contactName: string;
+  contactPhone?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roommate-profiles".
+ */
+export interface RoommateProfile {
+  id: number;
+  name: string;
+  age: number;
+  city: string;
+  budget: number;
+  bio: string;
+  cleanliness: 'relaxed' | 'normal' | 'tidy';
+  schedule: 'early' | 'flexible' | 'night';
+  pets: 'have' | 'ok' | 'no';
+  smoking: 'smoker' | 'tolerant' | 'nonsmoker';
+  listing?: (number | null) | HousingListing;
+  published?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -251,6 +332,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'pages';
         value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'housing-listings';
+        value: number | HousingListing;
+      } | null)
+    | ({
+        relationTo: 'roommate-profiles';
+        value: number | RoommateProfile;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -353,6 +442,7 @@ export interface PagesSelect<T extends boolean = true> {
               title?: T;
               subtitle?: T;
               image?: T;
+              imageUrl?: T;
               buttons?:
                 | T
                 | {
@@ -380,7 +470,78 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        housingList?:
+          | T
+          | {
+              anchor?: T;
+              title?: T;
+              limit?: T;
+              showFilters?: T;
+              id?: T;
+              blockName?: T;
+            };
+        roommateList?:
+          | T
+          | {
+              anchor?: T;
+              title?: T;
+              limit?: T;
+              showCompatibility?: T;
+              id?: T;
+              blockName?: T;
+            };
+        textSection?:
+          | T
+          | {
+              anchor?: T;
+              title?: T;
+              body?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "housing-listings_select".
+ */
+export interface HousingListingsSelect<T extends boolean = true> {
+  title?: T;
+  city?: T;
+  address?: T;
+  price?: T;
+  rooms?: T;
+  area?: T;
+  totalSpots?: T;
+  freeSpots?: T;
+  description?: T;
+  photoUrl?: T;
+  petsAllowed?: T;
+  smokingAllowed?: T;
+  status?: T;
+  contactName?: T;
+  contactPhone?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roommate-profiles_select".
+ */
+export interface RoommateProfilesSelect<T extends boolean = true> {
+  name?: T;
+  age?: T;
+  city?: T;
+  budget?: T;
+  bio?: T;
+  cleanliness?: T;
+  schedule?: T;
+  pets?: T;
+  smoking?: T;
+  listing?: T;
+  published?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -426,41 +587,111 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "common".
+ * via the `definition` "site-settings".
  */
-export interface Common {
+export interface SiteSetting {
   id: number;
   siteName: string;
-  menu?:
+  tagline?: string | null;
+  contactEmail?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header".
+ */
+export interface Header {
+  id: number;
+  ctaText?: string | null;
+  ctaLink?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation".
+ */
+export interface Navigation {
+  id: number;
+  items?:
     | {
         label: string;
         link: string;
         id?: string | null;
       }[]
     | null;
-  footer?: {
-    text?: string | null;
-  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "common_select".
+ * via the `definition` "footer".
  */
-export interface CommonSelect<T extends boolean = true> {
+export interface Footer {
+  id: number;
+  text?: string | null;
+  links?:
+    | {
+        label: string;
+        link: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
   siteName?: T;
-  menu?:
+  tagline?: T;
+  contactEmail?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header_select".
+ */
+export interface HeaderSelect<T extends boolean = true> {
+  ctaText?: T;
+  ctaLink?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation_select".
+ */
+export interface NavigationSelect<T extends boolean = true> {
+  items?:
     | T
     | {
         label?: T;
         link?: T;
         id?: T;
       };
-  footer?:
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  text?: T;
+  links?:
     | T
     | {
-        text?: T;
+        label?: T;
+        link?: T;
+        id?: T;
       };
   updatedAt?: T;
   createdAt?: T;

@@ -7,35 +7,45 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
-import {Pages} from './collections/Pages'
-import {Common} from './globals/Common'
-import { commonEndpoint, pageEndpoint } from './endpoints'
+import { Pages } from './collections/Pages'
+import { HousingListings } from './collections/HousingListings'
+import { RoommateProfiles } from './collections/RoommateProfiles'
+import { Header, Footer, Navigation, SiteSettings } from './globals'
+import { commonEndpoint, pageEndpoint, listingsEndpoint, listingEndpoint, roommatesEndpoint } from './endpoints'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+// Дозволені origin-и frontend: локальний Vite + домени з FRONTEND_URL (через кому)
+const origins = [
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'http://localhost:4173',
+  ...(process.env.FRONTEND_URL ?? '')
+    .split(',')
+    .map((s) => s.trim().replace(/\/$/, ''))
+    .filter(Boolean),
+]
+
 export default buildConfig({
   admin: {
     user: Users.slug,
-    importMap: {
-      baseDir: path.resolve(dirname),
-    },
+    importMap: { baseDir: path.resolve(dirname) },
   },
-  collections: [Users, Media, Pages],
-  cors: [ process.env.FRONTEND_URL || ''],
-  serverURL: process.env.CMS_URL || '',
-  globals: [Common],
-  endpoints: [commonEndpoint, pageEndpoint],
+  collections: [Users, Media, Pages, HousingListings, RoommateProfiles],
+  globals: [SiteSettings, Header, Navigation, Footer],
+  endpoints: [commonEndpoint, pageEndpoint, listingsEndpoint, listingEndpoint, roommatesEndpoint],
+  cors: origins,
+  csrf: [...origins, ...(process.env.CMS_URL ? [process.env.CMS_URL] : [])],
+  serverURL: process.env.CMS_URL || undefined,
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
-  typescript: {
-    outputFile: path.resolve(dirname, 'payload-types.ts'),
-  },
+  typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },
   db: postgresAdapter({
-    pool: {
-      connectionString: process.env.DATABASE_URL || '',
-    },
+    pool: { connectionString: process.env.DATABASE_URL || '' },
+    // dev: схема синхронізується автоматично (push); production: лише міграції (npm run migrate)
+    push: process.env.NODE_ENV !== 'production',
+    migrationDir: path.resolve(dirname, 'migrations'),
   }),
   sharp,
-  plugins: [],
 })
