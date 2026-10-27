@@ -1,0 +1,22 @@
+# Local secrets and configuration
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+*.pem
+*.key
+
+# Dependencies and builds
+node_modules/
+.next/
+dist/
+build/
+.vercel/
+coverage/
+*.tsbuildinfo
+*.log
+
+# Local files
+.DS_Store
