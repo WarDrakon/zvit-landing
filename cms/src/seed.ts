@@ -65,12 +65,12 @@ const pages = [
 ]
 
 const listings = [
-  { title: 'Світла кімната в центрі Львова', city: 'Львів', address: 'вул. Городоцька', price: 6500, rooms: 3, area: 78, totalSpots: 3, freeSpots: 1, photoUrl: '/images/listing-1.svg', description: 'Тривімнатна квартира біля центру, ремонт, вся техніка. Двоє охайних сусідів.', petsAllowed: false, smokingAllowed: false, contactName: 'Олена', contactPhone: '+380 00 000 00 00' },
-  { title: 'Місце у двокімнатній, Сихів', city: 'Львів', address: 'пр. Червоної Калини', price: 4200, rooms: 2, area: 56, totalSpots: 2, freeSpots: 1, photoUrl: '/images/listing-2.svg', description: 'Тихий район, поруч транспорт і супермаркет. Можна з котом.', petsAllowed: true, smokingAllowed: false, contactName: 'Андрій', contactPhone: '+380 00 000 00 01' },
-  { title: 'Студентська квартира біля університету', city: 'Київ', address: 'Голосіївський район', price: 5500, rooms: 3, area: 70, totalSpots: 4, freeSpots: 2, photoUrl: '/images/listing-3.svg', description: 'Пʼять хвилин до метро. Є робоче місце та швидкий інтернет.', petsAllowed: false, smokingAllowed: true, contactName: 'Марія', contactPhone: '+380 00 000 00 02' },
-  { title: 'Кімната з балконом на Подолі', city: 'Київ', address: 'Поділ', price: 7800, rooms: 2, area: 62, totalSpots: 2, freeSpots: 1, photoUrl: '/images/listing-4.svg', description: 'Затишна кімната з великим балконом, сусід працює віддалено.', petsAllowed: true, smokingAllowed: false, contactName: 'Ігор', contactPhone: '+380 00 000 00 03' },
-  { title: 'Простора трикімнатна, Одеса', city: 'Одеса', address: 'Приморський район', price: 4800, rooms: 3, area: 85, totalSpots: 3, freeSpots: 2, photoUrl: '/images/listing-5.svg', description: 'За 15 хвилин до моря. Дружня атмосфера, спільна кухня.', petsAllowed: true, smokingAllowed: true, contactName: 'Софія', contactPhone: '+380 00 000 00 04' },
-  { title: 'Мінімалістична кімната, Харків', city: 'Харків', address: 'Салтівка', price: 3500, rooms: 2, area: 48, totalSpots: 2, freeSpots: 0, photoUrl: '/images/listing-6.svg', description: 'Усі місця зайняті — оголошення для прикладу заповненого житла.', petsAllowed: false, smokingAllowed: false, contactName: 'Дмитро', contactPhone: '+380 00 000 00 05' },
+  { title: 'Світла кімната в центрі Львова', city: 'Львів', address: 'вул. Городоцька', price: 6500, rooms: 3, area: 78, totalSpots: 3, freeSpots: 1, photoUrl: '/images/listing-1.jpg', description: 'Тривімнатна квартира біля центру, ремонт, вся техніка. Двоє охайних сусідів.', petsAllowed: false, smokingAllowed: false, contactName: 'Олена', contactPhone: '+380 00 000 00 00' },
+  { title: 'Місце у двокімнатній, Сихів', city: 'Львів', address: 'пр. Червоної Калини', price: 4200, rooms: 2, area: 56, totalSpots: 2, freeSpots: 1, photoUrl: '/images/listing-2.jpg', description: 'Тихий район, поруч транспорт і супермаркет. Можна з котом.', petsAllowed: true, smokingAllowed: false, contactName: 'Андрій', contactPhone: '+380 00 000 00 01' },
+  { title: 'Студентська квартира біля університету', city: 'Київ', address: 'Голосіївський район', price: 5500, rooms: 3, area: 70, totalSpots: 4, freeSpots: 2, photoUrl: '/images/listing-3.jpg', description: 'Пʼять хвилин до метро. Є робоче місце та швидкий інтернет.', petsAllowed: false, smokingAllowed: true, contactName: 'Марія', contactPhone: '+380 00 000 00 02' },
+  { title: 'Кімната з балконом на Подолі', city: 'Київ', address: 'Поділ', price: 7800, rooms: 2, area: 62, totalSpots: 2, freeSpots: 1, photoUrl: '/images/listing-4.jpg', description: 'Затишна кімната з великим балконом, сусід працює віддалено.', petsAllowed: true, smokingAllowed: false, contactName: 'Ігор', contactPhone: '+380 00 000 00 03' },
+  { title: 'Простора трикімнатна, Одеса', city: 'Одеса', address: 'Приморський район', price: 4800, rooms: 3, area: 85, totalSpots: 3, freeSpots: 2, photoUrl: '/images/listing-5.jpg', description: 'За 15 хвилин до моря. Дружня атмосфера, спільна кухня.', petsAllowed: true, smokingAllowed: true, contactName: 'Софія', contactPhone: '+380 00 000 00 04' },
+  { title: 'Мінімалістична кімната, Харків', city: 'Харків', address: 'Салтівка', price: 3500, rooms: 2, area: 48, totalSpots: 2, freeSpots: 0, photoUrl: '/images/listing-6.jpg', description: 'Усі місця зайняті — оголошення для прикладу заповненого житла.', petsAllowed: false, smokingAllowed: false, contactName: 'Дмитро', contactPhone: '+380 00 000 00 05' },
 ]
 
 const profiles = [
@@ -101,13 +101,6 @@ async function upsert(payload: any, collection: string, where: any, data: any) {
     await payload.update({ collection, id: found.docs[0].id, data })
     return found.docs[0]
   }
-  return payload.create({ collection, data })
-}
-
-// Створити лише якщо ще не існує — не перезаписуємо вручну налаштоване
-async function createIfNotExists(payload: any, collection: string, where: any, data: any) {
-  const found = await payload.find({ collection, where, limit: 1, depth: 0 })
-  if (found.docs[0]) return found.docs[0]
   return payload.create({ collection, data })
 }
 
