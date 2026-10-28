@@ -31,7 +31,8 @@ const pages = [
           { icon: '🧹', title: 'Побутові звички', text: 'Чистота, режим дня, домашні тварини та куріння — ключові критерії.' },
         ],
       },
-      { blockType: 'housingList', anchor: 'housing', title: 'Нові оголошення', limit: 3, showFilters: false },
+      { blockType: 'housingList', anchor: 'housing', title: 'Нові оголошення', limit: 6, showFilters: false },
+      { blockType: 'roommateList', anchor: 'roommates', title: 'Співмешканці', limit: 5, showCompatibility: false },
       {
         blockType: 'textSection',
         anchor: 'about',
@@ -64,12 +65,12 @@ const pages = [
 ]
 
 const listings = [
-  { title: 'Світла кімната в центрі Львова', city: 'Львів', address: 'вул. Городоцька', price: 6500, rooms: 3, area: 78, totalSpots: 3, freeSpots: 1, description: 'Тривімнатна квартира біля центру, ремонт, вся техніка. Двоє охайних сусідів.', petsAllowed: false, smokingAllowed: false, contactName: 'Олена', contactPhone: '+380501112233' },
-  { title: 'Місце у двокімнатній, Сихів', city: 'Львів', address: 'пр. Червоної Калини', price: 4200, rooms: 2, area: 56, totalSpots: 2, freeSpots: 1, description: 'Тихий район, поруч транспорт і супермаркет. Можна з котом.', petsAllowed: true, smokingAllowed: false, contactName: 'Андрій', contactPhone: '+380671234567' },
-  { title: 'Студентська квартира біля університету', city: 'Київ', address: 'Голосіївський район', price: 5500, rooms: 3, area: 70, totalSpots: 4, freeSpots: 2, description: 'Пʼять хвилин до метро. Є робоче місце та швидкий інтернет.', petsAllowed: false, smokingAllowed: true, contactName: 'Марія', contactPhone: '+380931112244' },
-  { title: 'Кімната з балконом на Подолі', city: 'Київ', address: 'Поділ', price: 7800, rooms: 2, area: 62, totalSpots: 2, freeSpots: 1, description: 'Затишна кімната з великим балконом, сусід працює віддалено.', petsAllowed: true, smokingAllowed: false, contactName: 'Ігор', contactPhone: '+380631239988' },
-  { title: 'Простора трикімнатна, Одеса', city: 'Одеса', address: 'Приморський район', price: 4800, rooms: 3, area: 85, totalSpots: 3, freeSpots: 2, description: 'За 15 хвилин до моря. Дружня атмосфера, спільна кухня.', petsAllowed: true, smokingAllowed: true, contactName: 'Софія', contactPhone: '+380505556677' },
-  { title: 'Мінімалістична кімната, Харків', city: 'Харків', address: 'Салтівка', price: 3500, rooms: 2, area: 48, totalSpots: 2, freeSpots: 0, description: 'Усі місця зайняті — оголошення для прикладу заповненого житла.', petsAllowed: false, smokingAllowed: false, contactName: 'Дмитро', contactPhone: '+380971112200' },
+  { title: 'Світла кімната в центрі Львова', city: 'Львів', address: 'вул. Городоцька', price: 6500, rooms: 3, area: 78, totalSpots: 3, freeSpots: 1, photoUrl: '/images/listing-1.svg', description: 'Тривімнатна квартира біля центру, ремонт, вся техніка. Двоє охайних сусідів.', petsAllowed: false, smokingAllowed: false, contactName: 'Олена', contactPhone: '+380 00 000 00 00' },
+  { title: 'Місце у двокімнатній, Сихів', city: 'Львів', address: 'пр. Червоної Калини', price: 4200, rooms: 2, area: 56, totalSpots: 2, freeSpots: 1, photoUrl: '/images/listing-2.svg', description: 'Тихий район, поруч транспорт і супермаркет. Можна з котом.', petsAllowed: true, smokingAllowed: false, contactName: 'Андрій', contactPhone: '+380 00 000 00 01' },
+  { title: 'Студентська квартира біля університету', city: 'Київ', address: 'Голосіївський район', price: 5500, rooms: 3, area: 70, totalSpots: 4, freeSpots: 2, photoUrl: '/images/listing-3.svg', description: 'Пʼять хвилин до метро. Є робоче місце та швидкий інтернет.', petsAllowed: false, smokingAllowed: true, contactName: 'Марія', contactPhone: '+380 00 000 00 02' },
+  { title: 'Кімната з балконом на Подолі', city: 'Київ', address: 'Поділ', price: 7800, rooms: 2, area: 62, totalSpots: 2, freeSpots: 1, photoUrl: '/images/listing-4.svg', description: 'Затишна кімната з великим балконом, сусід працює віддалено.', petsAllowed: true, smokingAllowed: false, contactName: 'Ігор', contactPhone: '+380 00 000 00 03' },
+  { title: 'Простора трикімнатна, Одеса', city: 'Одеса', address: 'Приморський район', price: 4800, rooms: 3, area: 85, totalSpots: 3, freeSpots: 2, photoUrl: '/images/listing-5.svg', description: 'За 15 хвилин до моря. Дружня атмосфера, спільна кухня.', petsAllowed: true, smokingAllowed: true, contactName: 'Софія', contactPhone: '+380 00 000 00 04' },
+  { title: 'Мінімалістична кімната, Харків', city: 'Харків', address: 'Салтівка', price: 3500, rooms: 2, area: 48, totalSpots: 2, freeSpots: 0, photoUrl: '/images/listing-6.svg', description: 'Усі місця зайняті — оголошення для прикладу заповненого житла.', petsAllowed: false, smokingAllowed: false, contactName: 'Дмитро', contactPhone: '+380 00 000 00 05' },
 ]
 
 const profiles = [
@@ -103,6 +104,22 @@ async function upsert(payload: any, collection: string, where: any, data: any) {
   return payload.create({ collection, data })
 }
 
+// Створити лише якщо ще не існує — не перезаписуємо вручну налаштоване
+async function createIfNotExists(payload: any, collection: string, where: any, data: any) {
+  const found = await payload.find({ collection, where, limit: 1, depth: 0 })
+  if (found.docs[0]) return found.docs[0]
+  return payload.create({ collection, data })
+}
+
+async function createGlobalIfNotExists(payload: any, slug: string, data: any) {
+  try {
+    await payload.findGlobal({ slug })
+    return // вже існує — не перезаписуємо
+  } catch {
+    return payload.updateGlobal({ slug, data })
+  }
+}
+
 async function run() {
   console.log('1. Starting Payload')
 
@@ -112,9 +129,36 @@ async function run() {
 
   console.log('3. Starting database seed')
 
-  for (const [slug, data] of Object.entries(globals)) await payload.updateGlobal({ slug, data })
+  for (const [slug, data] of Object.entries(globals)) await createGlobalIfNotExists(payload, slug, data)
 
-  for (const p of pages) await upsert(payload, 'pages', { path: { equals: p.path } }, p)
+  // Оновлюємо лише потрібні блоки існуючої сторінки Home, не торкаючись Hero, його фото та інших блоків
+  const homePage = await payload.find({ collection: 'pages', where: { path: { equals: '/' } }, limit: 1, depth: 0 })
+  if (homePage.docs[0]) {
+    const existingBlocks = homePage.docs[0].blocks ?? []
+    let blocks = existingBlocks.map((b: any) => {
+      if (b.blockType === 'housingList' && b.anchor === 'housing') {
+        return { ...b, limit: 6 }
+      }
+      if (b.blockType === 'roommateList') {
+        return { ...b, anchor: 'profiles', limit: 5 }
+      }
+      return b
+    })
+    if (!blocks.some((b: any) => b.blockType === 'roommateList')) {
+      blocks.push({
+        blockType: 'roommateList',
+        anchor: 'profiles',
+        title: 'Співмешканці',
+        limit: 5,
+        showCompatibility: false,
+      })
+    }
+    await payload.update({ collection: 'pages', id: homePage.docs[0].id, data: { blocks } })
+  } else {
+    const home = pages.find((p) => p.path === '/')
+    if (home) await payload.create({ collection: 'pages', data: home })
+  }
+
 
   for (const l of listings) await upsert(payload, 'housing-listings', { title: { equals: l.title } }, { ...l, status: 'open' })
 

@@ -4,6 +4,7 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -40,6 +41,21 @@ export default buildConfig({
   serverURL: process.env.CMS_URL || undefined,
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
+  // Vercel Blob активується лише коли задано токен BLOB_READ_WRITE_TOKEN.
+  // Інакше Media використовує локальне сховище файлів Payload (dev / без токена).
+  ...(process.env.BLOB_READ_WRITE_TOKEN
+    ? {
+        plugins: [
+  vercelBlobStorage({
+    enabled: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
+    collections: {
+      media: true,
+    },
+    token: process.env.BLOB_READ_WRITE_TOKEN,
+  }),
+],
+      }
+    : {}),
   typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },
   db: postgresAdapter({
     pool: { connectionString: process.env.DATABASE_URL || '' },
